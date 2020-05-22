@@ -1,0 +1,37 @@
+[![Build Status](https://github.com/deadsnakes/action/workflows/deploy/badge.svg)](https://github.com/deadsnakes/action/actions)
+
+deadsnakes/action
+=================
+
+a GitHub action to install (pre-release) pythons from [deadsnakes]
+
+[deadsnakes]: https://github.com/deadsnakes
+
+### using this action
+
+To use this action, add it adjacent to `setup-python` and opt into it
+conditionally.  Here's an example which uses `python-version` as a matrix.
+
+```yaml
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9-dev]
+    name: main
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        if: matrix.python-version != '3.9-dev'
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: deadsnakes/action@v1.0.0
+        if: matrix.python-version == '3.9-dev'
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python --version --version && which python
+```

@@ -35,3 +35,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python --version --version && which python
 ```
+
+### available versions
+
+- to use nightly builds, add `-dev` to the end of the version name.
+    - available nightly versions: 3.7-dev, 3.8-dev, 3.9-dev
+- to use tagged builds, just use the version number
+    - available versions: 3.7, 3.8, 3.9

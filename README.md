@@ -26,11 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-        if: matrix.python-version != '3.9-dev'
+        if: "!endsWith(matrix.python-version, '-dev')"
         with:
           python-version: ${{ matrix.python-version }}
       - uses: deadsnakes/action@v1.0.0
-        if: matrix.python-version == '3.9-dev'
+        if: endsWith(matrix.python-version, '-dev')
         with:
           python-version: ${{ matrix.python-version }}
       - run: python --version --version && which python

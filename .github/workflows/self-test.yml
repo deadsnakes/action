@@ -1,0 +1,48 @@
+name: self-test
+on:
+  pull_request:
+  push:
+    branches:
+    - master
+    - release
+  schedule:
+  - cron: 34 * * * *
+
+jobs:
+  self-check:
+    name: self-check
+    runs-on: ubuntu-${{ matrix.os-major-version }}.04
+    strategy:
+      fail-fast: false
+      matrix:
+        os-major-version:
+        - 20
+        - 18
+        python-version:
+        - '3.10'
+        - 3.9
+        - 3.8
+        - 3.7
+        python-version-suffix:
+        - ''
+        - -dev
+        exclude:
+        - python-version-suffix: ''
+          python-version: '3.10'
+    steps:
+    - name: Grab the repo src from GitHub
+      uses: actions/checkout@v2
+    - name: Build self
+      run: make
+    - name: Run self
+      uses: ./
+      with:
+        python-version: >-
+          ${{ matrix.python-version }}${{ matrix.python-version-suffix }}
+    - name: Log the chosen Python version info
+      run: python --version --version && which python
+    - name: >-
+        Verify that the chosen Python
+        matches what's requested
+      run: >-
+        python --version | grep '^Python ${{ matrix.python-version }}'

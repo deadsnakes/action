@@ -39,6 +39,12 @@ jobs:
 ### available versions
 
 - to use nightly builds, add `-dev` to the end of the version name.
-    - available nightly versions: 3.7-dev, 3.8-dev, 3.9-dev, 3.10-dev
+    - [available nightly versions]
 - to use tagged builds, just use the version number
-    - available versions: 3.7, 3.8, 3.9
+    - [available versions]
+
+note: this action is incompatible with ubuntu-16.04 due to a limitation in
+`add-apt-repository`
+
+[available nightly versions]: https://launchpad.net/~deadsnakes/+archive/ubuntu/nightly/+packages
+[available versions]: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa/+packages

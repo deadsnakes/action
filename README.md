@@ -33,7 +33,7 @@ jobs:
         if: endsWith(matrix.python-version, '-dev')
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python --version --version && which python
+      - run: python --version && which python
 ```
 
 ### available versions

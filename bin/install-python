@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+import argparse
+import contextlib
+import os.path
+import shlex
+import subprocess
+from typing import Generator
+from typing import NamedTuple
+from typing import Tuple
+
+
+class Group(NamedTuple):
+    section: str
+    cmds: Tuple[Tuple[str, ...], ...]
+
+    @classmethod
+    def make(cls, section: str, *cmds: Tuple[str, ...]) -> 'Group':
+        return cls(section, cmds)
+
+
+@contextlib.contextmanager
+def _group(s: str) -> Generator[None, None, None]:
+    print(f'::group::{s}')
+    try:
+        yield
+    finally:
+        print('::endgroup::')
+
+
+def _print_call(*args: str) -> int:
+    cmd = ' '.join(shlex.quote(arg) for arg in args)
+    print(f'[command] {cmd}', flush=True)
+    return subprocess.call(args)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('version')
+    args = parser.parse_args()
+
+    if args.version.endswith('-dev'):
+        version = args.version[:-1 * len('-dev')]
+        ppa = 'ppa:deadsnakes/nightly'
+    else:
+        version = args.version
+        ppa = 'ppa:deadsnakes/ppa'
+
+    py = f'python{version}'
+    packages = [f'{py}-dev', f'{py}-venv']
+    if float(version) >= 3.9:
+        packages.append(f'{py}-distutils')
+    else:
+        packages.append('python3-distutils')
+
+    envdir = os.path.expanduser(f'~/venv-{version}')
+    bindir = os.path.join(envdir, 'bin')
+    pip = os.path.join(bindir, 'pip')
+
+    groups = (
+        Group.make(
+            f'add ppa {ppa}',
+            ('sudo', 'add-apt-repository', '--yes', ppa),
+        ),
+        Group.make(
+            f'install {py}',
+            (
+                'sudo', 'apt-get', 'install', '-y', '--no-install-recommends',
+                *packages,
+            ),
+        ),
+        Group.make(
+            f'set up {py} environment',
+            (py, '-mvenv', envdir),
+            (pip, 'install', '--upgrade', 'pip', 'setuptools', 'wheel'),
+        ),
+    )
+
+    for group in groups:
+        with _group(group.section):
+            for cmd in group.cmds:
+                if _print_call(*cmd):
+                    return 1
+
+    print(f'::add-path::{bindir}')
+    return 0
+
+
+if __name__ == '__main__':
+    exit(main())

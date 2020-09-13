@@ -1,5 +1,3 @@
-[![Build Status](https://github.com/deadsnakes/action/workflows/deploy/badge.svg)](https://github.com/deadsnakes/action/actions)
-
 deadsnakes/action
 =================
 

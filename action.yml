@@ -5,5 +5,8 @@ inputs:
     description: python version to use, such as '3.9'
     required: true
 runs:
-  using: node12
-  main: dist/index.js
+  using: composite
+  steps:
+  - name: add deadsnakes ppa and install ${{ inputs.python-version }}
+    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }}
+    shell: bash

@@ -46,8 +46,14 @@ def main() -> int:
         ppa = 'ppa:deadsnakes/ppa'
 
     py = f'python{version}'
-    packages = [f'{py}-dev', f'{py}-venv']
-    if float(version) >= 3.9:
+    packages = [f'{py}-dev']
+
+    numeric_version = float(version)
+
+    if numeric_version >= 3.4:
+        packages.append(f'{py}-venv')
+
+    if numeric_version >= 3.9:
         packages.append(f'{py}-distutils')
     else:
         packages.append('python3-distutils')
@@ -70,7 +76,8 @@ def main() -> int:
         ),
         Group.make(
             f'set up {py} environment',
-            (py, '-mvenv', envdir),
+            *(((py, '-mvenv', envdir) if numeric_version >= 3.4 else
+               ('pyvenv', envdir)),),
             (pip, 'install', '--upgrade', 'pip', 'setuptools', 'wheel'),
         ),
     )

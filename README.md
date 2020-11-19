@@ -1,3 +1,5 @@
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/deadsnakes/action/master.svg)](https://results.pre-commit.ci/latest/github/deadsnakes/action/master)
+
 deadsnakes/action
 =================
 

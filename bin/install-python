@@ -81,7 +81,7 @@ def main() -> int:
                 if _print_call(*cmd):
                     return 1
 
-    with open(os.environ['GITHUB_PATH'], 'a') as fp:
+    with open(os.environ['GITHUB_PATH'], 'a', encoding='utf8') as fp:
         fp.write(f'{bindir}\n')
 
     return 0

@@ -4,9 +4,13 @@ inputs:
   python-version:
     description: python version to use, such as '3.9'
     required: true
+  debug:
+    description: use debug version of python
+    required: false
+    default: false
 runs:
   using: composite
   steps:
-  - name: add deadsnakes ppa and install ${{ inputs.python-version }}
-    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }}
+  - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug && '(debug)' || '' }}
+    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug && '--debug' || '' }}
     shell: bash

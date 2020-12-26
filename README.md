@@ -33,6 +33,7 @@ jobs:
         if: endsWith(matrix.python-version, '-dev')
         with:
           python-version: ${{ matrix.python-version }}
+          # debug: true  # Optional, to select a Python debug build
       - run: python --version --version && which python
 ```
 
@@ -42,6 +43,9 @@ jobs:
     - [available nightly versions]
 - to use tagged builds, just use the version number
     - [available versions]
+
+In either case, the actions's `debug` input can be used to install a
+debug build of the selected Python version.
 
 note: this action is incompatible with ubuntu-16.04 due to a limitation in
 `add-apt-repository`

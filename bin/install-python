@@ -36,6 +36,7 @@ def _print_call(*args: str) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('version')
+    parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
 
     if args.version.endswith('-dev'):
@@ -51,10 +52,13 @@ def main() -> int:
         packages.append(f'{py}-distutils')
     else:
         packages.append('python3-distutils')
+    if args.debug:
+        packages.append(f'{py}-dbg')
 
     envdir = os.path.expanduser(f'~/venv-{version}')
     bindir = os.path.join(envdir, 'bin')
     pip = os.path.join(bindir, 'pip')
+    py_executable = f'{py}-dbg' if args.debug else py
 
     groups = (
         Group.make(
@@ -69,8 +73,8 @@ def main() -> int:
             ),
         ),
         Group.make(
-            f'set up {py} environment',
-            (py, '-mvenv', envdir),
+            f'set up {py_executable} environment',
+            (py_executable, '-mvenv', envdir),
             (pip, 'install', '--upgrade', 'pip', 'setuptools', 'wheel'),
         ),
     )

@@ -29,7 +29,7 @@ jobs:
         if: "!endsWith(matrix.python-version, '-dev')"
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: deadsnakes/action@v2.0.2
+      - uses: deadsnakes/action@v2.1.0
         if: endsWith(matrix.python-version, '-dev')
         with:
           python-version: ${{ matrix.python-version }}

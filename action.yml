@@ -11,6 +11,6 @@ inputs:
 runs:
   using: composite
   steps:
-  - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug && '(debug)' || '' }}
-    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug && '--debug' || '' }}
+  - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
+    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
     shell: bash

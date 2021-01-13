@@ -45,7 +45,7 @@ jobs:
     - [available versions]
 
 In either case, the actions's `debug` input can be used to install a
-debug build of the selected Python version.
+debug build of the selected Python version, by adding `debug: true`.
 
 note: this action is incompatible with ubuntu-16.04 due to a limitation in
 `add-apt-repository`

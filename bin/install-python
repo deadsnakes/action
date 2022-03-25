@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import argparse
 import contextlib
 import os.path
@@ -11,10 +13,10 @@ from typing import Tuple
 
 class Group(NamedTuple):
     section: str
-    cmds: Tuple[Tuple[str, ...], ...]
+    cmds: tuple[tuple[str, ...], ...]
 
     @classmethod
-    def make(cls, section: str, *cmds: Tuple[str, ...]) -> 'Group':
+    def make(cls, section: str, *cmds: tuple[str, ...]) -> Group:
         return cls(section, cmds)
 
 

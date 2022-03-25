@@ -8,7 +8,6 @@ import shlex
 import subprocess
 from typing import Generator
 from typing import NamedTuple
-from typing import Tuple
 
 
 class Group(NamedTuple):

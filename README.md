@@ -34,7 +34,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           # debug: true  # Optional, to select a Python debug build
-      - run: python --version --version && which python
+      - run: python --version && which python
 ```
 
 ### available versions

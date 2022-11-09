@@ -47,8 +47,5 @@ jobs:
 In either case, the actions's `debug` input can be used to install a
 debug build of the selected Python version, by adding `debug: true`.
 
-note: this action is incompatible with ubuntu-16.04 due to a limitation in
-`add-apt-repository`
-
 [available nightly versions]: https://launchpad.net/~deadsnakes/+archive/ubuntu/nightly/+packages
 [available versions]: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa/+packages

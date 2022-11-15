@@ -1,0 +1,21 @@
+on:
+  pull_request:
+  push:
+    branches: [main, test-me-*]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+        - {python: '3.7', debug: true}
+        - {python: '3.10-dev', debug: false}
+        - {python: '3.11-dev', debug: false}
+        - {python: '3.12-dev', debug: false}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./.
+      with:
+        python-version: ${{ matrix.python }}
+        debug: ${{ matrix.debug }}

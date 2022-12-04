@@ -86,6 +86,17 @@ def main() -> int:
                 if _print_call(*cmd):
                     return 1
 
+    # check whether the installed package came from deadsnakes
+    out = subprocess.check_output(('apt-cache', 'policy', py)).decode()
+    seen = False
+    for line in out.splitlines():
+        if line.strip().startswith('*** '):
+            seen = True
+        elif seen and '/deadsnakes/' not in line:
+            raise SystemExit(f'package {py} is not from deadsnakes')
+        elif seen:
+            break
+
     with open(os.environ['GITHUB_PATH'], 'a') as fp:
         fp.write(f'{bindir}\n')
 

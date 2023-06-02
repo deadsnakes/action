@@ -47,12 +47,12 @@ def main() -> int:
         version = args.version
         ppa = 'ppa:deadsnakes/ppa'
 
+    major_s, minor_s = version.split('.')
+    major, minor = int(major_s), int(minor_s)
     py = f'python{version}'
     packages = [f'{py}-dev', f'{py}-venv']
-    if float(version) >= 3.9:
+    if (major, minor) < (3, 12):
         packages.append(f'{py}-distutils')
-    else:
-        packages.append('python3-distutils')
     if args.debug:
         packages.append(f'{py}-dbg')
 

@@ -29,8 +29,7 @@ def _group(s: str) -> Generator[None, None, None]:
 
 
 def _print_call(*args: str) -> int:
-    cmd = ' '.join(shlex.quote(arg) for arg in args)
-    print(f'[command] {cmd}', flush=True)
+    print(f'[command] {shlex.join(args)}', flush=True)
     return subprocess.call(args)
 
 

@@ -21,5 +21,5 @@ runs:
       echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
 
   - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
-    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
+    run: ./bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
     shell: bash

@@ -8,30 +8,18 @@ inputs:
     description: use debug version of python
     required: false
     default: false
+  inside-container:
+    description: if the action will run inside a container
+    required: false
+    default: false
 runs:
   using: composite
   steps:
-
-  - name: Add the action path to the gh paths to find scripts
-    shell: bash
-    run: |
-      # Both needed because they are unexpectedly different for containers apparently:
-      # https://github.com/actions/runner/pull/1762#issuecomment-1105843659
-      echo "${{ github.action_path }}" >> $GITHUB_PATH
-      echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-
-  - name: Echo Actions Path
-    shell: bash
-    run: |
-      echo $GITHUB_ACTION_PATH
-      echo ${{ github.action_path }}
-
-  - name: Echo
-    shell: bash
-    run: |
-      echo $(pwd)
-      ls -laR $(pwd)
-
   - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
-    run: ./bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
     shell: bash
+    run: |
+      if [[ "${{ inputs.inside-container }}" == "false" ]]; then
+        ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
+      else
+        $GITHUB_ACTION_PATH/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
+      fi

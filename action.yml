@@ -20,6 +20,11 @@ runs:
       echo "${{ github.action_path }}" >> $GITHUB_PATH
       echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
 
+  - name: Echo
+    run: |
+      echo $(pwd)
+      ls -laR $(pwd)
+
   - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
     run: ./bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
     shell: bash

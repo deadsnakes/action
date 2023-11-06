@@ -21,6 +21,7 @@ runs:
       echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
 
   - name: Echo
+    shell: bash
     run: |
       echo $(pwd)
       ls -laR $(pwd)

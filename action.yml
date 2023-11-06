@@ -11,6 +11,15 @@ inputs:
 runs:
   using: composite
   steps:
+
+  - name: Add the action path to the gh paths to find scripts
+    shell: bash
+    run: |
+      # Both needed because they are unexpectedly different for containers apparently:
+      # https://github.com/actions/runner/pull/1762#issuecomment-1105843659
+      echo "${{ github.action_path }}" >> $GITHUB_PATH
+      echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+
   - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
     run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
     shell: bash

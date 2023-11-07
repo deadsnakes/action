@@ -18,13 +18,11 @@ jobs:
         - {python: '3.11-dev', debug: false, image: null}
         - {python: '3.12-dev', debug: false, image: null}
     container: ${{ matrix.image }}
-    env:
-      DEBIAN_FRONTEND: noninteractive # to prevent apt-get from waiting user input
     steps:
     - name: Install Dependencies in Container
       if: ${{ matrix.image }}
       run: |
-        apt-get update && apt-get install -y sudo software-properties-common python3
+        apt-get update && apt-get install -y sudo software-properties-common dialog python3
     - uses: actions/checkout@v3
     - uses: ./.
       with:

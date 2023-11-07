@@ -8,18 +8,17 @@ inputs:
     description: use debug version of python
     required: false
     default: false
-  inside-container:
-    description: if the action will run inside a container
-    required: false
-    default: false
 runs:
   using: composite
   steps:
   - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
     shell: bash
     run: |
-      if [[ "${{ inputs.inside-container }}" == "false" ]]; then
+      # The `github.action_path` path is incorrectly set if the action is executed inside a container
+      # So one has to use `GITHUB_ACTION_PATH` instead
+      # e.g.: https://github.com/actions/runner/issues/2185 & https://github.com/actions/runner/pull/1762#issuecomment-1105843659
+      if [[ -f "${{ github.action_path }}/bin/install-python" ]]; then
         ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
-      else
+      elif [[ -f "$GITHUB_ACTION_PATH/bin/install-python" ]]; then
         $GITHUB_ACTION_PATH/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
       fi

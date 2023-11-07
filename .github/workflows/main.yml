@@ -6,9 +6,6 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -22,7 +19,10 @@ jobs:
     - name: Install Dependencies in Container
       if: ${{ matrix.image }}
       run: |
-        apt-get update && apt-get install -y sudo software-properties-common dialog python3
+        apt-get update && apt-get install -y sudo software-properties-common python3
+        
+        # To prevent waiting for user-input when configuring `tzdata`  
+        eval "$(sudo tee --append /etc/environment <<<'DEBIAN_FRONTEND=noninteractive')"
     - uses: actions/checkout@v3
     - uses: ./.
       with:

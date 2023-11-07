@@ -10,9 +10,9 @@ jobs:
       matrix:
         include:
         - {python: '3.7', debug: true, image: null}
+        - {python: '3.11', debug: false, image: 'ubuntu:latest'}
         - {python: '3.11-dev', debug: false, image: null}
         - {python: '3.12-dev', debug: false, image: null}
-        - {python: '3.12-dev', debug: false, image: 'ubuntu:latest'}
     container: ${{ matrix.image }}
     steps:
     - uses: actions/checkout@v3

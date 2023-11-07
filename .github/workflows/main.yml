@@ -18,7 +18,7 @@ jobs:
     - name: Install Dependencies in Container
       if: ${{ matrix.image }}
       run: |
-        apt-get update && apt-get install -y sudo python3
+        apt-get update && apt-get install -y sudo software-properties-common python3
     - uses: actions/checkout@v3
     - uses: ./.
       with:

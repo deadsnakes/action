@@ -7,6 +7,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
         - {python: '3.7', debug: true, image: null}
@@ -14,6 +15,8 @@ jobs:
         - {python: '3.11-dev', debug: false, image: null}
         - {python: '3.12-dev', debug: false, image: null}
     container: ${{ matrix.image }}
+    env:
+      DEBIAN_FRONTEND: noninteractive # to prevent apt-get from waiting user input
     steps:
     - name: Install Dependencies in Container
       if: ${{ matrix.image }}

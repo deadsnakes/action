@@ -9,12 +9,14 @@ jobs:
     strategy:
       matrix:
         include:
-        - {python: '3.7', debug: true}
-        - {python: '3.11-dev', debug: false}
-        - {python: '3.12-dev', debug: false}
+        - {python: '3.7', debug: true, nogil: false}
+        - {python: '3.11-dev', debug: false, nogil: false}
+        - {python: '3.12-dev', debug: false, nogil: false}
+        - {python: '3.13-dev', debug: false, nogil: true}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.
       with:
         python-version: ${{ matrix.python }}
         debug: ${{ matrix.debug }}
+        nogil: ${{ matrix.nogil }}

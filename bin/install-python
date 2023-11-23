@@ -36,7 +36,9 @@ def _print_call(*args: str) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('version')
-    parser.add_argument('--debug', action='store_true')
+    mut = parser.add_mutually_exclusive_group()
+    mut.add_argument('--debug', action='store_true')
+    mut.add_argument('--nogil', action='store_true')
     args = parser.parse_args()
 
     if args.version.endswith('-dev'):
@@ -54,11 +56,16 @@ def main() -> int:
         packages.append(f'{py}-distutils')
     if args.debug:
         packages.append(f'{py}-dbg')
+        py_executable = f'{py}-dbg'
+    elif args.nogil:
+        packages.append(f'{py}-nogil')
+        py_executable = f'{py}-nogil'
+    else:
+        py_executable = py
 
     envdir = os.path.expanduser(f'~/venv-{version}')
     bindir = os.path.join(envdir, 'bin')
     pip = os.path.join(bindir, 'pip')
-    py_executable = f'{py}-dbg' if args.debug else py
 
     groups = (
         Group.make(

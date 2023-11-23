@@ -34,6 +34,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           # debug: true  # Optional, to select a Python debug build
+          # nogil: true  # Optional, to select a free-threaded Python build (3.13+ only)
       - run: python --version --version && which python
 ```
 
@@ -46,6 +47,10 @@ jobs:
 
 In either case, the actions's `debug` input can be used to install a
 debug build of the selected Python version, by adding `debug: true`.
+
+The `nogil` input can be used instead of `debug` to install an *experimental*
+free-threaded build of the selected Python version, by adding `nogil: true`
+Only available for Python 3.13 and later.
 
 [available nightly versions]: https://launchpad.net/~deadsnakes/+archive/ubuntu/nightly/+packages
 [available versions]: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa/+packages

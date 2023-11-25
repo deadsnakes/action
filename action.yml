@@ -8,9 +8,13 @@ inputs:
     description: use debug version of python
     required: false
     default: false
+  nogil:
+    description: use free-threaded version of python
+    required: false
+    default: false
 runs:
   using: composite
   steps:
   - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
-    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }}
+    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.nogil == 'true' && '--nogil' || '' }}
     shell: bash

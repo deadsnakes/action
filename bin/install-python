@@ -20,7 +20,7 @@ class Group(NamedTuple):
 
 
 @contextlib.contextmanager
-def _group(s: str) -> Generator[None, None, None]:
+def _group(s: str) -> Generator[None]:
     print(f'::group::{s}')
     try:
         yield

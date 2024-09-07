@@ -39,6 +39,7 @@ def main() -> int:
     mut = parser.add_mutually_exclusive_group()
     mut.add_argument('--debug', action='store_true')
     mut.add_argument('--nogil', action='store_true')
+    parser.add_argument('--tk', action='store_true')
     args = parser.parse_args()
 
     if args.version.endswith('-dev'):
@@ -62,6 +63,13 @@ def main() -> int:
         py_executable = f'{py}-nogil'
     else:
         py_executable = py
+    if args.tk:
+        if args.debug:
+            packages.append(f'{py}-tk-dbg')
+        elif args.nogil:
+            packages.append(f'{py}-tk-nogil')
+        else:
+            packages.append(f'{py}-tk')
 
     envdir = os.path.expanduser(f'~/venv-{version}')
     bindir = os.path.join(envdir, 'bin')

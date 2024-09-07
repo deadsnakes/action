@@ -12,9 +12,13 @@ inputs:
     description: use free-threaded version of python
     required: false
     default: false
+  tk:
+    description: include Tkinter
+    required: false
+    default: false
 runs:
   using: composite
   steps:
-  - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }}
-    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.nogil == 'true' && '--nogil' || '' }}
+  - name: add deadsnakes ppa and install ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '(debug)' || '' }} ${{ inputs.tk == 'true' && '(tk)' || '' }}
+    run: ${{ github.action_path }}/bin/install-python ${{ inputs.python-version }} ${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.nogil == 'true' && '--nogil' || '' }} ${{ inputs.tk == 'true' && '--tk' || '' }}
     shell: bash

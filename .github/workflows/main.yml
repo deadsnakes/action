@@ -12,6 +12,7 @@ jobs:
         - {python: '3.7', debug: true, nogil: false}
         - {python: '3.12-dev', debug: false, nogil: false}
         - {python: '3.13-dev', debug: false, nogil: true}
+        - {python: '3.13-dev', debug: false, nogil: false, tk: true}
     steps:
     - uses: actions/checkout@v4
     - uses: ./.
@@ -19,3 +20,8 @@ jobs:
         python-version: ${{ matrix.python }}
         debug: ${{ matrix.debug }}
         nogil: ${{ matrix.nogil }}
+        tk: ${{ matrix.tk }}
+
+    - name: check tk
+      if: matrix.tk
+      run: python -c 'import tkinter'
